@@ -1,8 +1,14 @@
 var gulp = require('gulp'),
-    mochaPhantomJS = require('gulp-mocha-phantomjs');
+    mochaPhantomJS = require('gulp-mocha-phantomjs'),
+    amountOfStages = 10;
 
-gulp.task('test-stage-1', function () {
-    return gulp
-        .src('spec/stage-1/index.html')
-        .pipe(mochaPhantomJS());
-});
+for (var i = 1; i < amountOfStages; i++) {
+    (function () {
+        var j = i;
+        gulp.task('test-stage-' + j, function () {
+            return gulp
+                .src('spec/stage-' + j + '/index.html')
+                .pipe(mochaPhantomJS());
+        });
+    })();
+}
